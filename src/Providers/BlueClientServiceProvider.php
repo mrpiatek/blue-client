@@ -1,6 +1,6 @@
 <?php
 
-namespace MrPiatek\BlueServer\Providers;
+namespace MrPiatek\BlueClient\Providers;
 
 
 use Illuminate\Support\ServiceProvider;
@@ -14,6 +14,6 @@ class BlueClientServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->loadRoutesFrom(__DIR__.'/../routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes.php');
     }
 }

@@ -30,10 +30,40 @@ class ProductsServiceSpec extends ObjectBehavior
         ];
         $response->getBody()->willReturn(json_encode([
             'data' => $products
-
         ]));
+
         $httpClient->get(self::API_PREFIX . '/products/in-stock')->shouldBeCalled()->willReturn($response);
 
         $this->getProductsInStock()->shouldReturn($products);
+    }
+
+    public function it_gets_products_out_of_stock(Client $httpClient, Response $response)
+    {
+        $products = [
+            ['id' => 1, 'name' => 'Product 1', 'amount' => 0],
+            ['id' => 2, 'name' => 'Product 2', 'amount' => 0]
+        ];
+        $response->getBody()->willReturn(json_encode([
+            'data' => $products
+        ]));
+
+        $httpClient->get(self::API_PREFIX . '/products/out-of-stock')->shouldBeCalled()->willReturn($response);
+
+        $this->getProductsOutOfStock()->shouldReturn($products);
+    }
+
+    public function it_gets_products_with_amount_over_five(Client $httpClient, Response $response)
+    {
+        $products = [
+            ['id' => 1, 'name' => 'Product 1', 'amount' => 6],
+            ['id' => 2, 'name' => 'Product 2', 'amount' => 7]
+        ];
+        $response->getBody()->willReturn(json_encode([
+            'data' => $products
+        ]));
+
+        $httpClient->get(self::API_PREFIX . '/products/amount-over-five')->shouldBeCalled()->willReturn($response);
+
+        $this->getProductsWithAmountOverFive()->shouldReturn($products);
     }
 }

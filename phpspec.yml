@@ -1,0 +1,6 @@
+suites:
+    default:
+        namespace: MrPiatek\BlueClient\
+        psr4_prefix: MrPiatek\BlueClient\
+        src_path: src
+        spec_prefix: spec

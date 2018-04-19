@@ -1,0 +1,31 @@
+{
+  "name": "mrpiatek/blue-client",
+  "description": "Client side package for the Blue application.",
+  "type": "library",
+  "require": {
+    "laravel/laravel": "^5.6",
+    "php": ">=7.2.0"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^4.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "MrPiatek\\BlueClient\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MrPiatek\\BlueClient\\Providers\\BlueClientServiceProvider"
+      ]
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mariusz Piątek",
+      "email": "mariusz.piatek92@gmail.com"
+    }
+  ]
+}

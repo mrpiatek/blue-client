@@ -3,6 +3,8 @@
 namespace MrPiatek\BlueServer\Providers;
 
 
+use Illuminate\Support\ServiceProvider;
+
 class BlueClientServiceProvider extends ServiceProvider
 {
     /**

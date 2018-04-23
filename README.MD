@@ -24,3 +24,10 @@
 ```
 
 ### Run `composer require mrpiatek/blue-client`
+
+### Run `php artisan vendor:publish --provider="MrPiatek\\BlueClient\\Providers\\GuzzleHttpServiceProvider"`
+
+## Environment
+
+You may provide API's (blue-server) base URI in the .env file using `BLUE_SERVER_BASE_URI` setting and set timeout
+for API requests using `BLUE_SERVER_TIMEOUT`

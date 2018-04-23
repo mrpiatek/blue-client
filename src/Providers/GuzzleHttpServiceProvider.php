@@ -16,7 +16,7 @@ class GuzzleHttpServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '../config/blue-server-config.php' => config_path('blue-server-config.php'),
+            __DIR__ . '/../config/blue-server-config.php' => config_path('blue-server-config.php'),
         ]);
     }
 
@@ -27,7 +27,6 @@ class GuzzleHttpServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
         $this->app->bind('GuzzleHttp\Client', function () {
             return new Client([
                 'base_uri' => config('blue-server-config.base-uri'),

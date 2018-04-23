@@ -4,6 +4,7 @@ namespace MrPiatek\BlueClient\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\View\View;
 use MrPiatek\BlueClient\Services\ProductsService;
 
 class ProductsClientIndexController extends BaseController
@@ -27,31 +28,33 @@ class ProductsClientIndexController extends BaseController
     /**
      * Returns HTTP response with products in stock index.
      *
-     * @return Response
+     * @return View
      */
-    public function productsInStock(): Response
+    public function productsInStock(): View
     {
-        $data = $this->productsService->getProductsInStock();
-        return view()->with('data', $data);
+        $products = $this->productsService->getProductsInStock();
+        return view('products::index-in-stock')->with('products', $products);
     }
 
     /**
      * Returns HTTP response with products out of stock index.
      *
-     * @return Response
+     * @return View
      */
-    public function productsOutOfStock(): Response
+    public function productsOutOfStock(): View
     {
-
+        $products = $this->productsService->getProductsOutOfStock();
+        return view('products::index-out-of-stock')->with('products', $products);
     }
 
     /**
      * Returns HTTP response with products with amount over five.
      *
-     * @return Response
+     * @return View
      */
-    public function productsAmountOverFive(): Response
+    public function productsAmountOverFive(): View
     {
-
+        $products = $this->productsService->getProductsWithAmountOverFive();
+        return view('products::index-amount-over-five')->with('products', $products);
     }
 }

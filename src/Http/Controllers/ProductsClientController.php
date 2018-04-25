@@ -8,24 +8,10 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\View\View;
 use MrPiatek\BlueClient\Exceptions\UnprocessableEntityException;
 use MrPiatek\BlueClient\Services\ProductsStoringService;
+use MrPiatek\BlueClient\Services\ProductsUpdatingService;
 
 class ProductsClientController extends BaseController
 {
-
-    /**
-     * @var ProductsStoringService
-     */
-    private $productsService;
-
-    /**
-     * ProductsClientController constructor.
-     *
-     * @param ProductsStoringService $productsService
-     */
-    public function __construct(ProductsStoringService $productsService)
-    {
-        $this->productsService = $productsService;
-    }
 
     /**
      * Returns view for creating new products.
@@ -55,5 +41,22 @@ class ProductsClientController extends BaseController
         }
 
         return $redirect;
+    }
+
+    public function edit(int $id)
+    {
+        return view('products::edit')->with('id', $id);
+    }
+
+    public function update($id, Request $request, ProductsUpdatingService $updatingService)
+    {
+        $updatingService->updateProduct($id, $request->input('name'), $request->input('amount'));
+        return redirect()->route('products.in-stock');
+    }
+
+    public function destroy($id, ProductsUpdatingService $updatingService)
+    {
+        $updatingService->deleteProduct($id);
+        return redirect()->route('products.in-stock');
     }
 }

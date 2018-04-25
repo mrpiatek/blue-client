@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use MrPiatek\BlueClient\Services\ProductsStoringService;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class ProductsStoringServiceSpec extends ObjectBehavior
 {
@@ -26,9 +27,7 @@ class ProductsStoringServiceSpec extends ObjectBehavior
         $product = ['name' => 'Product 1', 'amount' => 6];
         $response->getBody()->willReturn('[]');
 
-        $httpClient->request('POST', self::API_PREFIX . '/products', [
-            'json' => $product
-        ])
+        $httpClient->request('POST', self::API_PREFIX . '/products', Argument::any())
             ->shouldBeCalled()
             ->willReturn($response);
 

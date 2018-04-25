@@ -1,5 +1,5 @@
 <?php
-Route::prefix('client')->group(function () {
+Route::prefix('client')->middleware('web')->group(function () {
     Route::prefix('products')->group(function () {
         Route::get('in-stock', 'MrPiatek\\BlueClient\\Http\\Controllers\\ProductsClientIndexController@productsInStock')
             ->name('products.in-stock');
@@ -9,7 +9,7 @@ Route::prefix('client')->group(function () {
             ->name('products.amount-over-five');
     });
 
-    Route::resource('products', 'MrPiatek\\BlueClient\\Http\\Controllers\\ProductsClientIndexController')->except([
+    Route::resource('products', 'MrPiatek\\BlueClient\\Http\\Controllers\\ProductsClientController')->except([
         'index', 'show'
     ]);
 });

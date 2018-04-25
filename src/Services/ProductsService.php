@@ -3,12 +3,13 @@
 namespace MrPiatek\BlueClient\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
 
 class ProductsService
 {
-    const API_PREFIX = 'api/v1';
+    private const API_PREFIX = 'api/v1';
 
-    private $httpClient;
+    protected $httpClient;
 
     /**
      * ProductsService constructor.
@@ -20,46 +21,35 @@ class ProductsService
     }
 
     /**
-     * Gets products in stock.
+     * Sends a request to the API.
      *
-     * @return array
-     */
-    public function getProductsInStock(): array
-    {
-        return $this->getProducts('/products/in-stock');
-    }
-
-    /**
-     * Gets products out of stock.
-     *
-     * @return array
-     */
-    public function getProductsOutOfStock(): array
-    {
-        return $this->getProducts('/products/out-of-stock');
-    }
-
-    /**
-     * Gets products with amount over five.
-     *
-     * @return array
-     */
-    public function getProductsWithAmountOverFive(): array
-    {
-        return $this->getProducts('/products/amount-over-five');
-    }
-
-    /**
-     * Gets products from given endpoint using GET request.
-     *
+     * @param string $method
      * @param string $endpoint
-     *
-     * @return array
+     * @param array $data
+     * @return mixed
      */
-    private function getProducts(string $endpoint)
+    protected function request(string $method, string $endpoint, array $data = [])
     {
-        $response = $this->httpClient->get(self::API_PREFIX . $endpoint);
-        $responseData = json_decode((string)$response->getBody(), true);
-        return $responseData['data'];
+        $options = [
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
+        ];
+        if (count($data) > 0) {
+            $options['json'] = $data;
+        }
+
+        try {
+            $response = $this->httpClient->request($method, self::API_PREFIX . $endpoint, $options);
+        } catch (ServerException $e) {
+
+        }
+        $body = (string)$response->getBody();
+        if ($body) {
+            $responseData = json_decode($body, true);
+            return array_key_exists('data', $responseData) ? $responseData['data'] : [];
+        } else {
+            return null;
+        }
     }
 }

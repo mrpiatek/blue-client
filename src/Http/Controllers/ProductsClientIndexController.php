@@ -2,25 +2,24 @@
 
 namespace MrPiatek\BlueClient\Http\Controllers;
 
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\View\View;
-use MrPiatek\BlueClient\Services\ProductsService;
+use MrPiatek\BlueClient\Services\ProductsIndexService;
 
 class ProductsClientIndexController extends BaseController
 {
 
     /**
-     * @var ProductsService
+     * @var ProductsIndexService
      */
     private $productsService;
 
     /**
      * ProductsClientController constructor.
      *
-     * @param ProductsService $productsService
+     * @param ProductsIndexService $productsService
      */
-    public function __construct(ProductsService $productsService)
+    public function __construct(ProductsIndexService $productsService)
     {
         $this->productsService = $productsService;
     }

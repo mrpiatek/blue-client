@@ -4,11 +4,11 @@ namespace spec\MrPiatek\BlueClient\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use MrPiatek\BlueClient\Services\ProductsService;
+use MrPiatek\BlueClient\Services\ProductsIndexService;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ProductsServiceSpec extends ObjectBehavior
+class ProductsIndexServiceSpec extends ObjectBehavior
 {
     const API_PREFIX = 'api/v1';
 
@@ -19,7 +19,7 @@ class ProductsServiceSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ProductsService::class);
+        $this->shouldHaveType(ProductsIndexService::class);
     }
 
     public function it_gets_products_in_stock(Client $httpClient, Response $response)
@@ -32,7 +32,9 @@ class ProductsServiceSpec extends ObjectBehavior
             'data' => $products
         ]));
 
-        $httpClient->get(self::API_PREFIX . '/products/in-stock')->shouldBeCalled()->willReturn($response);
+        $httpClient->request('GET', self::API_PREFIX . '/products/in-stock', Argument::any())
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->getProductsInStock()->shouldReturn($products);
     }
@@ -47,7 +49,9 @@ class ProductsServiceSpec extends ObjectBehavior
             'data' => $products
         ]));
 
-        $httpClient->get(self::API_PREFIX . '/products/out-of-stock')->shouldBeCalled()->willReturn($response);
+        $httpClient->request('GET', self::API_PREFIX . '/products/out-of-stock', Argument::any())
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->getProductsOutOfStock()->shouldReturn($products);
     }
@@ -62,7 +66,9 @@ class ProductsServiceSpec extends ObjectBehavior
             'data' => $products
         ]));
 
-        $httpClient->get(self::API_PREFIX . '/products/amount-over-five')->shouldBeCalled()->willReturn($response);
+        $httpClient->request('GET', self::API_PREFIX . '/products/amount-over-five', Argument::any())
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->getProductsWithAmountOverFive()->shouldReturn($products);
     }

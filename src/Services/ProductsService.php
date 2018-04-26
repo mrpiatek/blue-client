@@ -3,7 +3,10 @@
 namespace MrPiatek\BlueClient\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
+use MrPiatek\BlueClient\Exceptions\UnprocessableEntityException;
 
 class ProductsService
 {
@@ -26,7 +29,10 @@ class ProductsService
      * @param string $method
      * @param string $endpoint
      * @param array $data
+     *
      * @return mixed
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request(string $method, string $endpoint, array $data = [])
     {
@@ -42,8 +48,9 @@ class ProductsService
         try {
             $response = $this->httpClient->request($method, self::API_PREFIX . $endpoint, $options);
         } catch (ServerException $e) {
-
+            abort(500, $e->getMessage());
         }
+
         $body = (string)$response->getBody();
         if ($body) {
             $responseData = json_decode($body, true);

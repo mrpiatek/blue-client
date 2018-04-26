@@ -18,7 +18,7 @@ class ProductsClientController extends BaseController
      *
      * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('products::create');
     }
@@ -43,18 +43,48 @@ class ProductsClientController extends BaseController
         return $redirect;
     }
 
-    public function edit(int $id)
+    /**
+     * Returns view for editing existing products.
+     *
+     * @param int $id
+     *
+     * @return View
+     */
+    public function edit(int $id): View
     {
         return view('products::edit')->with('id', $id);
     }
 
-    public function update($id, Request $request, ProductsUpdatingService $updatingService)
+    /**
+     * Updates given product in the API.
+     *
+     * @param $id
+     * @param Request $request
+     * @param ProductsUpdatingService $updatingService
+     *
+     * @return RedirectResponse
+     */
+    public function update($id, Request $request, ProductsUpdatingService $updatingService): RedirectResponse
     {
-        $updatingService->updateProduct($id, $request->input('name'), $request->input('amount'));
-        return redirect()->route('products.in-stock');
+        try {
+            $updatingService->updateProduct($id, $request->input('name'), $request->input('amount'));
+            $redirect = redirect()->route('products.in-stock');
+        } catch (UnprocessableEntityException $e) {
+            $redirect = redirect()->route('products.create')->withErrors($e->getErrors());
+        }
+
+        return $redirect;
     }
 
-    public function destroy($id, ProductsUpdatingService $updatingService)
+    /**
+     * Destroys given product in the API.
+     *
+     * @param $id
+     * @param ProductsUpdatingService $updatingService
+     *
+     * @return RedirectResponse
+     */
+    public function destroy($id, ProductsUpdatingService $updatingService): RedirectResponse
     {
         $updatingService->deleteProduct($id);
         return redirect()->route('products.in-stock');
